@@ -5,13 +5,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
-import org.springframework.test.annotation.DirtiesContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DirtiesContext
 public class SendBServiceTest extends AbstractServiceTest {
-    public static final String TOPIC_B = "test-b";
+    public static final String TOPIC_B = "topic-b";
+    public static final String MESSAGE = "message-b";
     @Autowired
     private SendBService sendBService;
 
@@ -23,9 +22,10 @@ public class SendBServiceTest extends AbstractServiceTest {
 
     @Test
     public void shouldSend() {
-        sendBService.sendMessage("test-b");
+        sendBService.sendMessage(MESSAGE);
 
         ConsumerRecord<Integer, String> singleRecord = KafkaTestUtils.getSingleRecord(consumer, TOPIC_B);
-        assertThat(singleRecord).isNotNull();
+
+        assertThat(singleRecord.value()).isEqualTo(MESSAGE);
     }
 }

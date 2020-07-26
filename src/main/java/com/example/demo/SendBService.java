@@ -1,14 +1,14 @@
 package com.example.demo;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class SendBService {
-    public static final String TOPIC = "test-b";
-    @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+    public static final String TOPIC = "topic-b";
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
     public void sendMessage(String msg) {
         kafkaTemplate.send(TOPIC, msg);

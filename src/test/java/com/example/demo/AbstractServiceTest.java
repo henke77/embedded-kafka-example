@@ -14,7 +14,6 @@ import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -34,12 +33,12 @@ public abstract class AbstractServiceTest {
     @Bean
     public ConsumerFactory<Integer, String> consumerFactory() {
         return new DefaultKafkaConsumerFactory<>(
-                consumerConfigs(), new IntegerDeserializer(), new StringDeserializer());
+                consumerProps(), new IntegerDeserializer(), new StringDeserializer());
     }
 
     @Bean
-    public Map<String, Object> consumerConfigs() {
-        return new HashMap<>(KafkaTestUtils
-                .consumerProps(UUID.randomUUID().toString(), "false", embeddedKafkaBroker));
+    public Map<String, Object> consumerProps() {
+        return KafkaTestUtils
+                .consumerProps(UUID.randomUUID().toString(), "false", embeddedKafkaBroker);
     }
 }
